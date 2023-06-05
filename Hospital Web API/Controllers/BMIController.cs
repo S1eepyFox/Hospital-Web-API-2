@@ -9,7 +9,7 @@ namespace Hospital_Web_API.Controllers
     public class BMIController : ApiController
     {
 
-        //  https://localhost:44323/api/bmi?mass=70&height=170     
+        //  https://localhost:44323/api/bmi?mass=70&height=170    
         [ActionName("bmi")]
         [HttpGet]
         public IHttpActionResult GetBMI(int mass, int height)

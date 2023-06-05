@@ -12,7 +12,7 @@ namespace Hospital_Web_API.Controllers
     [RoutePrefix("api/patient")]
     public class PatientController : ApiController
     {
-       
+        // https://localhost:44323/api/patient/add?last_name=Горбунов&first_name=Иван &patronymic=Матвеевич&height=190&mass=33&age=77
         [ActionName("add")]
         [HttpPost]
         public async Task<IHttpActionResult> PostAdd(string last_name, string first_name, string patronymic, double height, double mass, int age)
@@ -34,6 +34,7 @@ namespace Hospital_Web_API.Controllers
             return Ok();
         }
 
+        //  https://localhost:44323/api/patient/statistics
         [ActionName("statistics")]
         [HttpGet]
         public async Task<IHttpActionResult> PostStatistics()
