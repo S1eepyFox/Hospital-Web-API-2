@@ -159,6 +159,7 @@
     <Compile Include="Controllers\BMIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PatientController.cs" />
+    <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -225,6 +226,8 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\BMI\" />
     <Folder Include="Views\Patient\" />
+    <Folder Include="Views\StatisticsApi\" />
+    <Folder Include="Views\Statistics\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

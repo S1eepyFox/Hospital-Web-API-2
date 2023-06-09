@@ -31,6 +31,15 @@ namespace Hospital_Web_API
                                 mass = RouteParameter.Optional, age = RouteParameter.Optional, }
                );
 
+            
+                  config.Routes.MapHttpRoute(
+               name: "StatisticsApi",
+               routeTemplate: "api/{controller}/",
+               defaults: new {
+                    }
+               );
+           
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
