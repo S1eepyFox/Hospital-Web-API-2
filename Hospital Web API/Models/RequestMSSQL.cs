@@ -32,12 +32,12 @@ namespace Hospital_Web_API.Models
 
             if (conn.State == System.Data.ConnectionState.Open)
                 conn.Close();
-         
+
         }
 
         async static public Task<BodyMassIndex[]> StatisticsPatient()
         {
-           
+
 
 
             string sqlAdd = "" +
@@ -66,7 +66,7 @@ namespace Hospital_Web_API.Models
 
             string s = dt.Rows[0][0].ToString();
             double d = Convert.ToDouble(s);
-            BodyMassIndex[] bodyMassIndex= new BodyMassIndex[7];
+            BodyMassIndex[] bodyMassIndex = new BodyMassIndex[7];
 
 
             for (int i = 0; i < bodyMassIndex.Length; i++)
@@ -78,14 +78,33 @@ namespace Hospital_Web_API.Models
                 };
             };
 
-               
-     
-         
+
+
+
             if (conn.State == System.Data.ConnectionState.Open)
                 conn.Close();
 
             return bodyMassIndex;
         }
 
+
+        async static public Task<DataTable> StatisticsPatient_GroupAge()
+        {
+
+            string sqlAdd = "EXEC StatisticsAgeBMI;";
+
+
+            SqlCommand command = new SqlCommand(sqlAdd, conn);
+
+            if (conn.State == System.Data.ConnectionState.Closed)
+                conn.Open();
+
+            SqlDataReader dr = command.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(dr);
+            if (conn.State == System.Data.ConnectionState.Open)
+                conn.Close();
+            return dt;
+        }
     }
 }

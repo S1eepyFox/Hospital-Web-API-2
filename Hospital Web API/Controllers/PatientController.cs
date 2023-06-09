@@ -34,15 +34,23 @@ namespace Hospital_Web_API.Controllers
             return Ok();
         }
 
-        //  https://localhost:44323/api/patient/statistics
-        [ActionName("statistics")]
+      
+        //  https://localhost:44323/api/patient/group_age_statistics
+        [ActionName("group_age")]
         [HttpGet]
-        public async Task<IHttpActionResult> PostStatistics()
+        public async Task<IHttpActionResult> GetGroup_Age_Statistics()
         {
-            BodyMassIndex[] bodyMassIndex = await RequestMSSQL.StatisticsPatient();
-
-            return Ok(bodyMassIndex);
+            return Ok(await RequestMSSQL.StatisticsPatient_GroupAge());
         }
+
+
+        ////  https://localhost:44323/api/patient/statistics
+        //[ActionName("statistics")]
+        //[HttpGet]
+        //public async Task<IHttpActionResult> GetStatistics()
+        //{
+        //    return Ok(await RequestMSSQL.StatisticsPatient());
+        //}
 
     }
 }
