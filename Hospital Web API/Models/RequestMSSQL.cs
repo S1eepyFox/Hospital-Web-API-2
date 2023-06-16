@@ -9,8 +9,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-
-
+using static Hospital_Web_API.Error.ResponseError;
 
 namespace Hospital_Web_API.Models
 {
@@ -21,58 +20,116 @@ namespace Hospital_Web_API.Models
         private static SqlConnection conn = new SqlConnection(connectionString);
         //Добавление данных пациента
         //без проверки на дубликат!
-        async static public Task AddPatient(string last_name, string first_name, string patronymic, double height, double mass, int age, double BMI)
+        async static public Task<Response<string>> AddPatient(string last_name, string first_name, string patronymic, double height, double mass, int age, double BMI)
         {
-            string sqlAdd = $"INSERT INTO Patients (last_name, first_name, patronymic, height, mass, age, BMI) " +
-                             $"values('{last_name}', '{first_name}', '{patronymic}',{height},{mass},{age},{BMI})";
-            SqlCommand commandAdd = new SqlCommand(sqlAdd, conn);
+            Response<string> response = new Response<string>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string sqlAdd = $"INSERT INTO Patients (last_name, first_name, patronymic, height, mass, age, BMI) " +
+                                 $"values('{last_name}', '{first_name}', '{patronymic}',{height},{mass},{age},{BMI})";
 
-            if (conn.State == System.Data.ConnectionState.Closed)
-                await conn.OpenAsync();
+                    SqlCommand commandAdd = new SqlCommand(sqlAdd, conn);
 
-            commandAdd.ExecuteNonQuery();
+                    if (conn.State == System.Data.ConnectionState.Closed)
+                        await conn.OpenAsync();
 
-            if (conn.State == System.Data.ConnectionState.Open)
-                conn.Close();
+                    commandAdd.ExecuteNonQuery();
 
+                    if (conn.State == System.Data.ConnectionState.Open)
+                        conn.Close();
+
+                    response.Status = true;
+                    response.Result = "Запись создана";
+
+                    return response;
+                }
+            }
+            catch (Exception e)
+            {
+                response.Status = false;
+                response.Result = "";
+                response.ErrorMessage = e.Message;
+
+                return response;
+            }
         }
 
-        async static public Task<DataTable> StatisticsPatient() //Получает из базы данных статистику ИМТ всех пациентов
+
+        async static public Task<Response<DataTable>> StatisticsPatient()//Получает из базы данных статистику ИМТ всех пациентов
         {
-            string sqlAdd = "EXEC StatisticsBMI";
+            Response<DataTable> response = new Response<DataTable>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string sqlAdd = "EXEC StatisticsBMI";
 
-            SqlCommand command = new SqlCommand(sqlAdd, conn);
+                    SqlCommand command = new SqlCommand(sqlAdd, conn);
 
-            if (conn.State == System.Data.ConnectionState.Closed)
-                await conn.OpenAsync();
+                    if (conn.State == System.Data.ConnectionState.Closed)
+                        await conn.OpenAsync();
 
-            SqlDataReader dr = command.ExecuteReader();
-            DataTable dt = new DataTable();
-            dt.Load(dr);
+                    SqlDataReader dr = await command.ExecuteReaderAsync();
+                    DataTable dt = new DataTable();
+                    dt.Load(dr);
 
-            if (conn.State == System.Data.ConnectionState.Open)
-                conn.Close();
+                    if (conn.State == System.Data.ConnectionState.Open)
+                        conn.Close();
 
-            return dt;
+                    response.Status = true;
+                    response.Result = dt;
+                }
+
+                return response;
+            }
+            catch (Exception e)
+            {
+                response.Status = false;
+                response.Result = new DataTable();
+                response.ErrorMessage = e.Message;
+
+                return response;
+            }
         }
 
 
-        async static public Task<DataTable> StatisticsPatient_GroupAge() //Получает из базы данных статистику ИМТ всех пациентов, сгруппированных по возрасту
+        async static public Task<Response<DataTable>> StatisticsPatient_GroupAge() //Получает из базы данных статистику ИМТ всех пациентов, сгруппированных по возрасту
         {
+            Response<DataTable> response = new Response<DataTable>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string sqlAdd = "EXEC StatisticsBMI_GroupedByAge;";
 
-            string sqlAdd = "EXEC StatisticsBMI_GroupedByAge;";
+                    SqlCommand command = new SqlCommand(sqlAdd, conn);
 
-            SqlCommand command = new SqlCommand(sqlAdd, conn);
+                    if (conn.State == System.Data.ConnectionState.Closed)
+                        await conn.OpenAsync();
 
-            if (conn.State == System.Data.ConnectionState.Closed)
-                conn.Open();
+                    SqlDataReader dr = await command.ExecuteReaderAsync();
+                    DataTable dt = new DataTable();
+                    dt.Load(dr);
 
-            SqlDataReader dr = command.ExecuteReader();
-            DataTable dt = new DataTable();
-            dt.Load(dr);
-            if (conn.State == System.Data.ConnectionState.Open)
-                conn.Close();
-            return dt;
+                    if (conn.State == System.Data.ConnectionState.Open)
+                        conn.Close();
+
+                    response.Status = true;
+                    response.Result = dt;
+                }
+
+                return response;
+            }
+            catch (Exception e)
+            {
+                response.Status = false;
+                response.Result = new DataTable();
+                response.ErrorMessage = e.Message;
+
+                return response;
+            }
         }
     }
 }

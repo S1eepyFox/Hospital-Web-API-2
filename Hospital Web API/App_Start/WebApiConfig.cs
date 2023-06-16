@@ -25,7 +25,7 @@ namespace Hospital_Web_API
            
                   config.Routes.MapHttpRoute(
                name: "PatientApi",
-               routeTemplate: "api/{controller}/last_name&first_name&patronymic&height&mass&age/",
+               routeTemplate: "api/{controller}/{last_name}&{first_name}&{patronymic}&{height}&{mass&age}/",
                defaults: new {last_name = RouteParameter.Optional, first_name = RouteParameter.Optional,
                                 patronymic = RouteParameter.Optional, height = RouteParameter.Optional,
                                 mass = RouteParameter.Optional, age = RouteParameter.Optional, }

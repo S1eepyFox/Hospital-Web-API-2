@@ -2,10 +2,11 @@
 using Hospital_Web_API.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Data;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
-
+using static Hospital_Web_API.Error.ResponseError;
 
 namespace Hospital_Web_API.Controllers
 {
@@ -17,7 +18,15 @@ namespace Hospital_Web_API.Controllers
         [Route("api/statistics")]
         public async Task<IHttpActionResult> Get()
         {
-            return Ok(await RequestMSSQL.StatisticsPatient());
+            Response<DataTable> response = await RequestMSSQL.StatisticsPatient();
+
+            if (response.Status)
+            {
+                return Ok(response.Result);
+            }
+
+            return NotFound();
+
         }
 
         //https://localhost:44323/api/statistics/group_age
@@ -26,7 +35,15 @@ namespace Hospital_Web_API.Controllers
         [Route("api/statistics/group_age")]
         public async Task<IHttpActionResult> GetByAgeGroup()
         {
-            return Ok(await RequestMSSQL.StatisticsPatient_GroupAge());
+          
+            Response<DataTable> response = await RequestMSSQL.StatisticsPatient_GroupAge();
+
+            if (response.Status)
+            {
+                return Ok(response.Result);
+            }
+
+            return NotFound();
         }
 
     }

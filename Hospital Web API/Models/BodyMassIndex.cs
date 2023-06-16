@@ -9,5 +9,6 @@ namespace Hospital_Web_API.Models
     {
         public double BMI { get; set; }
         public string Description { get; set; }
+
     }
 }
