@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace Hospital_Web_API.Models
 {
-    public class DataExistenceCheck
+    public class DataExistenceCheck //Проверка на реалистичность полученных параметров человека
     {
         public static bool GetAge(double age)
         {

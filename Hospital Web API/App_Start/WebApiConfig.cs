@@ -35,16 +35,15 @@ namespace Hospital_Web_API
                   config.Routes.MapHttpRoute(
                name: "StatisticsApi",
                routeTemplate: "api/{controller}/",
-               defaults: new {
-                    }
+               defaults: new {}
                );
-           
 
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+           // config.Routes.MapHttpRoute(
+           //    name: "DefaultApi",
+           //    routeTemplate: "api/{controller}/{id}",
+           //    defaults: new { id = RouteParameter.Optional }
+           //);
+
         }
     }
 }

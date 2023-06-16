@@ -9,24 +9,25 @@ using System.Web.Http;
 
 namespace Hospital_Web_API.Controllers
 {
-    [RoutePrefix("api/statistics")]
     public class StatisticsController : ApiController
-
-    {  ////  https://localhost:44323/api/statistics/group_age
-        [ActionName("group_age_statistics")]
+    {
+        //https://localhost:44323/api/statistics
+        //Метод GET возвращающий статистику ИМТ всех пациентов из БД
         [HttpGet]
-        public async Task<IHttpActionResult> GetGroup_Age()
+        [Route("api/statistics")]
+        public async Task<IHttpActionResult> Get()
+        {
+            return Ok(await RequestMSSQL.StatisticsPatient());
+        }
+
+        //https://localhost:44323/api/statistics/group_age
+        //Метод GET возвращающий статистику ИМТ всех пациентов из БД, сгруппированных по возрасту
+        [HttpGet]
+        [Route("api/statistics/group_age")]
+        public async Task<IHttpActionResult> GetByAgeGroup()
         {
             return Ok(await RequestMSSQL.StatisticsPatient_GroupAge());
         }
 
-
-        //// https://localhost:44323/api/statistics/
-        // [ActionName("statistics")]
-        // [HttpGet]
-        // public async Task<IHttpActionResult> GetStatistics()
-        // {
-        //     return Ok(await RequestMSSQL.StatisticsPatient());
-        // }
     }
 }

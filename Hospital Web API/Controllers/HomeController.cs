@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Hospital_Web_API.Controllers
+namespace Удалить.Controllers
 {
     public class HomeController : Controller
     {

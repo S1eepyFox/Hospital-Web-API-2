@@ -13,11 +13,13 @@ namespace Hospital_Web_API.Controllers
     public class PatientController : ApiController
     {
         // https://localhost:44323/api/patient/add?last_name=Горбунов&first_name=Иван &patronymic=Матвеевич&height=190&mass=33&age=77
+        //Метод POST вносит в БД пациента 
+        //Без проверки на дубликат записи
         [ActionName("add")]
         [HttpPost]
         public async Task<IHttpActionResult> PostAdd(string last_name, string first_name, string patronymic, double height, double mass, int age)
         {
-
+                          
             bool checkMass = DataExistenceCheck.GetMass(mass);
             bool checkHeight = DataExistenceCheck.GetHeight(height);
             bool checkAge = DataExistenceCheck.GetAge(age);
@@ -34,17 +36,6 @@ namespace Hospital_Web_API.Controllers
             return Ok();
         }
 
-
-
-
-
-        //  https://localhost:44323/api/patient/statistics
-        [ActionName("statistics")]
-        [HttpGet]
-        public async Task<IHttpActionResult> GetStatistics()
-        {
-            return Ok(await RequestMSSQL.StatisticsPatient());
-        }
 
     }
 }
